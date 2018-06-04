@@ -13,6 +13,8 @@
         "system_error": "cpp",
         "xtr1common": "cpp",
         "cmath": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "vector": "cpp",
+        "fstream": "cpp"
     }
 }

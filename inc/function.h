@@ -8,10 +8,10 @@ using namespace std;
 
 #define SRand() ((double)rand() / (double)RAND_MAX)
 #define BinaryRand() (rand() % 2)
-#define POPULATION_CNT 10
-#define ITERA_CNT 10
+#define POPULATION_CNT 100
+#define ITERA_CNT 100
 #define CROSSOVER_RATE 0.8
-#define MUTATION_RATE 0.1
+#define MUTATION_RATE 0.3
 #define PCI_decline 0.8
 #define COST_PER_AREA 586
 
@@ -20,14 +20,16 @@ class DataType
 private:
   size_t pPCI = 27;
   size_t pArea = 7;
-  string* mustBeDone;
+  string mustBeDone;
   /*four season*/
 public:
-  string* content;
+  string *content;
   size_t row;
   size_t column;
-  int budget[4];
-  DataType(string);
+  string *firstStage;
+  string *secondStage;
+  int budget;
+  DataType(string, int);
 };
 
 class PopulationType : public DataType
@@ -40,30 +42,18 @@ public:
     double fitnessValue = 0;
     double benefit = 0;
     double probability = 0;
-  };
+  } BestOne;
 
 private:
   ChromosomeType parent[POPULATION_CNT];
   ChromosomeType pool[POPULATION_CNT];
   ChromosomeType offspring[POPULATION_CNT];
-  ChromosomeType BestOne;
-  size_t iterantion;
 
 public:
-  PopulationType(string);
+  PopulationType(string, int);
   void reproduction();
   void crossover();
   void mutation();
-  void computeFitnessForStage1(size_t,size_t);
-  void computeFitnessForStage2();
+  void computeFitness(size_t);
   void printBestOne();
 };
-
-// void setFitness(chromosomeForm *population, dataForm &data);
-// void setProbability(chromosomeForm *population);
-// void reproduction(chromosomeForm *parent, chromosomeForm *temp);
-// void crossover(chromosomeForm *temp, chromosomeForm *offspring);
-// void penalty(size_t itera, chromosomeForm *offspring, dataForm &data);
-// void chromosomeCopy(chromosomeForm *chromosome_1, chromosomeForm *chromosome_2);
-// void mutation(chromosomeForm *offspring);
-// void printBestOne();

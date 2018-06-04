@@ -2,19 +2,27 @@
 
 int main(int argc, char **argv)
 {
-    PopulationType population(argv[1]);
-    population.budget[0] = atoi(argv[2]);
-    population.budget[1] = atoi(argv[3]);
-    population.budget[2] = atoi(argv[4]);
-    population.budget[3] = atoi(argv[5]);
+    
+    PopulationType population(argv[1], 1); //1 mean for stage 1 ,2 mean for stage 2
+    population.budget = atoi(argv[2]);
 
-    for (size_t i = 0; i < 80; i++)
+    for (size_t j = 0; j < ITERA_CNT; j++)
     {
         population.reproduction();
         population.crossover();
         population.mutation();
-        population.computeFitnessForStage1(i, 0);
+        population.computeFitness(j);
     }
-    
+
+    PopulationType population2(argv[1], 2);
+    population2.budget = population.budget - population.BestOne.cost;
+    for (size_t j = 0; j < ITERA_CNT; j++)
+    {
+        population2.reproduction();
+        population2.crossover();
+        population2.mutation();
+        population2.computeFitness(j);
+    }
     population.printBestOne();
+    population2.printBestOne();
 }

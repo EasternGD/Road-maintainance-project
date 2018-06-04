@@ -11,7 +11,7 @@ test: main.exe
 	@./main.exe data/testfile.csv 5000000 5000000 5000000 5000000
 
 test1: main.exe
-	@./main.exe data/01.csv 1000000 1000000 1000000 1000000
+	@./main.exe data/01.csv 61000000   
 
 clean:
 	rm *.exe *.o src/*.o
