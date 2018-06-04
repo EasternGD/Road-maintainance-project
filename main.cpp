@@ -8,5 +8,13 @@ int main(int argc, char **argv)
     population.budget[2] = atoi(argv[4]);
     population.budget[3] = atoi(argv[5]);
 
-    population.reproduction();
+    for (size_t i = 0; i < 80; i++)
+    {
+        population.reproduction();
+        population.crossover();
+        population.mutation();
+        population.computeFitnessForStage1(i, 0);
+    }
+    
+    population.printBestOne();
 }

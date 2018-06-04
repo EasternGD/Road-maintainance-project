@@ -11,6 +11,8 @@
         "xlocale": "cpp",
         "utility": "cpp",
         "system_error": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "cmath": "cpp",
+        "cstdlib": "cpp"
     }
 }

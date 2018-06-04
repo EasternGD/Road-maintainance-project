@@ -23,10 +23,10 @@ private:
   string* mustBeDone;
   /*four season*/
 public:
-  string *content;
+  string* content;
   size_t row;
   size_t column;
-  size_t budget[4];
+  int budget[4];
   DataType(string);
 };
 
@@ -36,7 +36,7 @@ public:
   struct ChromosomeType
   {
     string binaryValue;
-    size_t cost = 0;
+    int cost = 0;
     double fitnessValue = 0;
     double benefit = 0;
     double probability = 0;
@@ -46,13 +46,17 @@ private:
   ChromosomeType parent[POPULATION_CNT];
   ChromosomeType pool[POPULATION_CNT];
   ChromosomeType offspring[POPULATION_CNT];
+  ChromosomeType BestOne;
   size_t iterantion;
 
 public:
   PopulationType(string);
   void reproduction();
   void crossover();
-  void computeFitness();
+  void mutation();
+  void computeFitnessForStage1(size_t,size_t);
+  void computeFitnessForStage2();
+  void printBestOne();
 };
 
 // void setFitness(chromosomeForm *population, dataForm &data);
