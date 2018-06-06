@@ -8,8 +8,8 @@ using namespace std;
 
 #define SRand() ((double)rand() / (double)RAND_MAX)
 #define BinaryRand() (rand() % 2)
-#define POPULATION_CNT 100
-#define ITERA_CNT 100
+#define POPULATION_CNT 1000
+#define ITERA_CNT 1000
 // #define CROSSOVER_RATE 0.8
 // #define MUTATION_RATE 0.1
 #define PCI_decline 0.8
