@@ -11,7 +11,7 @@ using namespace std;
 #define POPULATION_CNT 100
 #define ITERA_CNT 100
 #define CROSSOVER_RATE 0.8
-#define MUTATION_RATE 0.3
+#define MUTATION_RATE 0.1
 #define PCI_decline 0.8
 #define COST_PER_AREA 586
 
@@ -26,10 +26,10 @@ public:
   string *content;
   size_t row;
   size_t column;
-  string *firstStage;
-  string *secondStage;
+  double power = 0;
   int budget;
   DataType(string, int);
+  virtual ~DataType() { delete[] content; }
 };
 
 class PopulationType : public DataType
@@ -45,12 +45,18 @@ public:
   } BestOne;
 
 private:
-  ChromosomeType parent[POPULATION_CNT];
-  ChromosomeType pool[POPULATION_CNT];
-  ChromosomeType offspring[POPULATION_CNT];
+  ChromosomeType *parent = new ChromosomeType[POPULATION_CNT];
+  ChromosomeType *pool = new ChromosomeType[POPULATION_CNT];
+  ChromosomeType *offspring = new ChromosomeType[POPULATION_CNT];
 
 public:
   PopulationType(string, int);
+  ~PopulationType()
+  {
+    delete[] parent;
+    delete[] pool;
+    delete[] offspring;
+  };
   void reproduction();
   void crossover();
   void mutation();

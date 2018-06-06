@@ -72,7 +72,7 @@ DataType::DataType(string fileName, int stage)
     /* figure data size */
     row -= 1;
     column = 3;
-
+    cout << "original data : " << row << " records" << endl;
     //count how many data be used on different stage
 
     //put data into different stage
@@ -89,7 +89,7 @@ DataType::DataType(string fileName, int stage)
             j++;
         }
         //stage 2
-        if (stage == 2 && atof(content[i * column + 2].c_str()) < 70 && atof(content[i * column + 2].c_str()) > 40)
+        if (stage == 2 && atof(content[i * column + 2].c_str()) < 70)
         {
             content[k * column] = content[i * column];
             content[k * column + 1] = content[i * column + 1];
@@ -99,6 +99,8 @@ DataType::DataType(string fileName, int stage)
     }
 
     (stage == 1 ? row = j : row = k);
+    cout << "pro-data: " << row << " records" << endl;
+
     // cout << "stage " << stage << endl;
     // for (size_t i = 0; i < row; i++)
     // {
@@ -128,9 +130,8 @@ PopulationType::PopulationType(string argv1, int stage) : DataType(argv1, stage)
     {
         for (size_t j = 0; j < row; j++)
         {
-
             parent[i].binaryValue += to_string(BinaryRand());
-            //(PCI'-PCI)* Area * binary
+            //(PCI'-PCI)* Area /(total Area) * binary
             parent[i].benefit +=
                 ((100.0 - atof(content[j * column + 2].c_str()) * PCI_decline) *
                  atof(content[j * column + 1].c_str())) *
@@ -139,7 +140,7 @@ PopulationType::PopulationType(string argv1, int stage) : DataType(argv1, stage)
             parent[i].fitnessValue = parent[i].benefit;
         }
         // cout << parent[i].binaryValue << " ";
-        // cout << parent[i].fitnessValue << endl;
+        // cout << endl;
     }
     for (size_t i = 0; i < POPULATION_CNT; i++)
     {
@@ -211,7 +212,7 @@ void PopulationType::crossover()
             // cout << offspring[i].binaryValue << endl;
             i++;
 
-            //cout << endl;
+            // cout << endl;
         }
     }
 }
@@ -267,10 +268,9 @@ void PopulationType::computeFitness(size_t iteration)
         //punish for over budget
         if (offspring[i].cost > budget)
         {
-            offspring[i].fitnessValue -= pow(abs(offspring[i].cost - budget), 0.8) * pow(0.5 * iteration, 2);
+            offspring[i].fitnessValue -= pow(abs(offspring[i].cost - budget), 0.8) * pow(0.5 * iteration, 0.8);
         }
 
-  
         //banchmark of tanslation
         if (offspring[i].fitnessValue < min)
         {
@@ -295,4 +295,15 @@ void PopulationType::printBestOne()
     cout << "Best one: " << BestOne.binaryValue << endl;
     cout << "cost :" << BestOne.cost / 1000000.0 << " M" << endl;
     cout << "benefit :" << BestOne.benefit << endl;
+    cout << "Number: ";
+    for (size_t i = 0; i < row; i++)
+    {
+        if (BestOne.binaryValue[i] == '1')
+        {
+            content[i * 3 + 2] = "100";
+            cout << content[i * 3] << ",";
+
+        }
+    }
+    cout << endl;
 }
