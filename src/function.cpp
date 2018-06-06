@@ -268,7 +268,7 @@ void PopulationType::computeFitness(size_t iteration)
         //punish for over budget
         if (offspring[i].cost > budget)
         {
-            offspring[i].fitnessValue -= pow(abs(offspring[i].cost - budget), 0.8) * pow(0.5 * iteration, 0.8);
+            offspring[i].fitnessValue -= pow(abs(offspring[i].cost - budget), ALPHA) * pow(BETA * iteration, GAMMA);
         }
 
         //banchmark of tanslation
@@ -296,14 +296,50 @@ void PopulationType::printBestOne()
     cout << "cost :" << BestOne.cost / 1000000.0 << " M" << endl;
     cout << "benefit :" << BestOne.benefit << endl;
     cout << "Number: ";
+    bool flag = false;
     for (size_t i = 0; i < row; i++)
     {
         if (BestOne.binaryValue[i] == '1')
         {
-            content[i * 3 + 2] = "100";
-            cout << content[i * 3] << ",";
 
+            content[i * 3 + 2] = "100";
+            if (!flag)
+            {
+                mustBeDone += content[i * 3];
+                flag = true;
+            }
+            else
+            {
+                mustBeDone += "," + content[i * 3];
+            }
         }
     }
+    cout << mustBeDone << endl;
     cout << endl;
+}
+
+void saveJSON(const PopulationType &p1, const PopulationType &p2, string fileName)
+{
+    ofstream fileOutput(fileName, ios::out);
+    if (!fileOutput)
+    {
+        cerr << "\nError opening file: " << fileName;
+    }
+    else
+    {
+        fileOutput << "[" << endl;
+        fileOutput << "\t{" << endl;
+        fileOutput << "\t\t\"NUMBER\":[\"";
+        fileOutput << p1.mustBeDone;
+        if (p2.mustBeDone != "")
+        {
+            fileOutput << "," << p2.mustBeDone;
+        }
+        fileOutput << "\"]," << endl;
+        fileOutput << "\t\t\"COST\":" << p1.BestOne.cost + p2.BestOne.cost << "," << endl;
+        fileOutput << "\t\t\"BENEFIT\":" << p1.BestOne.benefit + p2.BestOne.benefit << endl;
+        fileOutput << "\t}" << endl;
+        fileOutput << "]" << endl;
+    }
+    fileOutput.close();
 }
