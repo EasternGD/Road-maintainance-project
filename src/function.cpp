@@ -89,7 +89,7 @@ DataType::DataType(string fileName, int stage)
             j++;
         }
         //stage 2
-        if (stage == 2 && atof(content[i * column + 2].c_str()) < 70)
+        if (stage == 2 && atof(content[i * column + 2].c_str()) < 70 && atof(content[i * column + 2].c_str()) > 40)
         {
             content[k * column] = content[i * column];
             content[k * column + 1] = content[i * column + 1];
@@ -102,15 +102,6 @@ DataType::DataType(string fileName, int stage)
     cout << "pro-data: " << row << " records" << endl;
 
     // cout << "stage " << stage << endl;
-    // for (size_t i = 0; i < row; i++)
-    // {
-    //     for (size_t j = 0; j < 3; j++)
-    //     {
-    //         cout << content[i * 3 + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
-
     // for (size_t i = 0; i < count_2; i++)
     // {
     //     for (size_t j = 0; j < 3; j++)
@@ -124,7 +115,6 @@ DataType::DataType(string fileName, int stage)
 PopulationType::PopulationType(string argv1, int stage) : DataType(argv1, stage)
 {
     // binary value initilization
-    srand(time(NULL));
     // srand(1);
     for (size_t i = 0; i < POPULATION_CNT; i++)
     {
@@ -142,6 +132,7 @@ PopulationType::PopulationType(string argv1, int stage) : DataType(argv1, stage)
         // cout << parent[i].binaryValue << " ";
         // cout << endl;
     }
+
     for (size_t i = 0; i < POPULATION_CNT; i++)
     {
         pool[i] = parent[0];
@@ -236,6 +227,12 @@ void PopulationType::mutation()
             {
                 offspring[i].binaryValue[p] = '0';
             }
+            // char buff = offspring[i].binaryValue[row - 1];
+            // for (int j = 1; j < row; j++)
+            // {
+            //     offspring[i].binaryValue[j] = offspring[i].binaryValue[j - 1];
+            // }
+            // offspring[i].binaryValue[0] = buff;
             // cout << "i = " << i << " :" << offspring[i].binaryValue << endl;
         }
     }
@@ -276,12 +273,18 @@ void PopulationType::computeFitness(size_t iteration)
         {
             min = offspring[i].fitnessValue;
         }
-        offspring[i].fitnessValue -= min - 1;
+        offspring[i].fitnessValue -= min - 0;
         // cout << offspring[i].fitnessValue << endl;
         if (offspring[i].fitnessValue > BestOne.fitnessValue && offspring[i].cost < budget)
         {
             BestOne = offspring[i];
         }
+    }
+
+    if (iteration > ITERA_CNT / 3)
+    {
+        for (int i = 0; i < ITERA_CNT / 10; i++)
+            offspring[i] = BestOne;
     }
 
     for (size_t i = 0; i < POPULATION_CNT; i++)

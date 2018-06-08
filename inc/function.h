@@ -8,8 +8,8 @@ using namespace std;
 
 #define SRand() ((double)rand() / (double)RAND_MAX)
 #define BinaryRand() (rand() % 2)
-#define POPULATION_CNT 1000
-#define ITERA_CNT 1000
+#define POPULATION_CNT 100
+#define ITERA_CNT 100
 // #define CROSSOVER_RATE 0.8
 // #define MUTATION_RATE 0.1
 #define PCI_decline 0.8
@@ -26,7 +26,7 @@ public:
   size_t row;
   size_t column;
   double power = 0;
-  int budget;
+  size_t budget;
   string mustBeDone;
   DataType(string, int);
   virtual ~DataType() { delete[] content; }
@@ -38,7 +38,7 @@ public:
   struct ChromosomeType
   {
     string binaryValue;
-    int cost = 0;
+    size_t cost = 0;
     double fitnessValue = 0;
     double benefit = 0;
     double probability = 0;
