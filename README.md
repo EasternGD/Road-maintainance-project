@@ -1,2 +1,6 @@
 # Road-maintainance-project
-Genetic-Algorithm Programming of Road Maintenance
+>Genetic-Algorithm Implementation of Road Maintenance
+
+## Usage
+
+`make` - 
